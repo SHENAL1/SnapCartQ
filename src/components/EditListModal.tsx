@@ -1,17 +1,19 @@
 import { useState } from 'react'
 import Modal from './Modal'
 import { CURRENCIES } from '../lib/currencies'
+import type { ShoppingList } from '../types'
 
-interface CreateListModalProps {
+interface EditListModalProps {
+  list: ShoppingList
   onClose: () => void
-  onCreate: (name: string, budget?: number | null, currency?: string, weightLimit?: number | null) => Promise<unknown>
+  onSave: (updates: { name: string; budget: number | null; currency: string; weight_limit: number | null }) => Promise<void>
 }
 
-export default function CreateListModal({ onClose, onCreate }: CreateListModalProps) {
-  const [name, setName] = useState('')
-  const [budget, setBudget] = useState('')
-  const [currency, setCurrency] = useState('MYR')
-  const [weightLimit, setWeightLimit] = useState('')
+export default function EditListModal({ list, onClose, onSave }: EditListModalProps) {
+  const [name, setName] = useState(list.name)
+  const [budget, setBudget] = useState(list.budget?.toString() ?? '')
+  const [currency, setCurrency] = useState(list.currency ?? 'MYR')
+  const [weightLimit, setWeightLimit] = useState(list.weight_limit?.toString() ?? '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -21,22 +23,22 @@ export default function CreateListModal({ onClose, onCreate }: CreateListModalPr
     setLoading(true)
     setError('')
     try {
-      await onCreate(
-        name.trim(),
-        budget ? parseFloat(budget) : null,
+      await onSave({
+        name: name.trim(),
+        budget: budget ? parseFloat(budget) : null,
         currency,
-        weightLimit ? parseFloat(weightLimit) : null
-      )
+        weight_limit: weightLimit ? parseFloat(weightLimit) : null,
+      })
       onClose()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create list')
+      setError(err instanceof Error ? err.message : 'Failed to save')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <Modal title="New Shopping List" onClose={onClose}>
+    <Modal title="Edit List" onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">List Name</label>
@@ -44,7 +46,6 @@ export default function CreateListModal({ onClose, onCreate }: CreateListModalPr
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="e.g. Malaysia Trip – Chocolates"
             className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             autoFocus
             required
@@ -103,7 +104,7 @@ export default function CreateListModal({ onClose, onCreate }: CreateListModalPr
           disabled={loading || !name.trim()}
           className="w-full bg-indigo-600 text-white font-semibold rounded-xl py-3 hover:bg-indigo-700 disabled:opacity-50 transition-colors"
         >
-          {loading ? 'Creating…' : 'Create List'}
+          {loading ? 'Saving…' : 'Save Changes'}
         </button>
       </form>
     </Modal>

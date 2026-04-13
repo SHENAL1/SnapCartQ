@@ -2,6 +2,8 @@ export interface ShoppingList {
   id: string;
   name: string;
   budget: number | null;
+  currency: string;
+  weight_limit: number | null;
   created_at: string;
 }
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
+import { parseWeightToKg } from '../lib/weight'
 import type { Item } from '../types'
 
 type NewItem = { name: string; price: number | null; weight: string | null; quantity: number }
@@ -60,5 +61,11 @@ export function useItems(listId: string) {
 
   const totalPrice = items.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0)
 
-  return { items, loading, error, addItem, updateItem, deleteItem, totalPrice, refetch: fetchItems }
+  const totalWeightKg = items.reduce((sum, item) => {
+    const kg = parseWeightToKg(item.weight)
+    if (kg == null) return sum
+    return sum + kg * item.quantity
+  }, 0)
+
+  return { items, loading, error, addItem, updateItem, deleteItem, totalPrice, totalWeightKg, refetch: fetchItems }
 }

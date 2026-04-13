@@ -1,12 +1,14 @@
+import { formatPrice } from '../lib/currencies'
 import type { Item } from '../types'
 
 interface ItemRowProps {
   item: Item
+  currency: string
   onEdit: () => void
   onDelete: () => void
 }
 
-export default function ItemRow({ item, onEdit, onDelete }: ItemRowProps) {
+export default function ItemRow({ item, currency, onEdit, onDelete }: ItemRowProps) {
   const subtotal = (item.price ?? 0) * item.quantity
 
   return (
@@ -26,9 +28,9 @@ export default function ItemRow({ item, onEdit, onDelete }: ItemRowProps) {
       <div className="text-right shrink-0 mr-1">
         {item.price != null ? (
           <>
-            <p className="font-semibold text-gray-900 text-sm">${subtotal.toFixed(2)}</p>
+            <p className="font-semibold text-gray-900 text-sm">{formatPrice(subtotal, currency)}</p>
             {item.quantity > 1 && (
-              <p className="text-xs text-gray-400">${item.price.toFixed(2)} ea</p>
+              <p className="text-xs text-gray-400">{formatPrice(item.price, currency)} ea</p>
             )}
           </>
         ) : (

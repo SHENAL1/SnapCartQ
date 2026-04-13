@@ -10,7 +10,7 @@ interface ListStats {
 }
 
 export default function Home() {
-  const { lists, loading, error, createList, deleteList } = useLists()
+  const { lists, loading, error, createList, deleteList, duplicateList } = useLists()
   const [showCreate, setShowCreate] = useState(false)
   const [stats, setStats] = useState<Record<string, ListStats>>({})
 
@@ -38,6 +38,14 @@ export default function Home() {
       await deleteList(id)
     } catch {
       alert('Failed to delete list')
+    }
+  }
+
+  const handleDuplicate = async (id: string) => {
+    try {
+      await duplicateList(id)
+    } catch {
+      alert('Failed to duplicate list')
     }
   }
 
@@ -102,6 +110,7 @@ export default function Home() {
               itemCount={stats[list.id]?.count ?? 0}
               totalPrice={stats[list.id]?.total ?? 0}
               onDelete={() => handleDelete(list.id)}
+              onDuplicate={() => handleDuplicate(list.id)}
             />
           ))}
         </div>

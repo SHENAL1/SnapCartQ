@@ -1,9 +1,12 @@
+import { formatPrice } from '../lib/currencies'
+
 interface BudgetBarProps {
   budget: number
   spent: number
+  currency: string
 }
 
-export default function BudgetBar({ budget, spent }: BudgetBarProps) {
+export default function BudgetBar({ budget, spent, currency }: BudgetBarProps) {
   const percentage = Math.min((spent / budget) * 100, 100)
   const isOver = spent > budget
   const isWarning = !isOver && percentage > 80
@@ -13,7 +16,7 @@ export default function BudgetBar({ budget, spent }: BudgetBarProps) {
       <div className="flex justify-between text-sm">
         <span className="text-gray-500 font-medium">Budget</span>
         <span className={isOver ? 'text-red-600 font-semibold' : 'text-gray-700'}>
-          ${spent.toFixed(2)} / ${budget.toFixed(2)}
+          {formatPrice(spent, currency)} / {formatPrice(budget, currency)}
         </span>
       </div>
       <div className="h-2 bg-gray-100 rounded-full overflow-hidden">

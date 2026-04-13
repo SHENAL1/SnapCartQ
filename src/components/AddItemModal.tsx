@@ -2,18 +2,21 @@ import { useState } from 'react'
 import Modal from './Modal'
 import ImageUpload from './ImageUpload'
 import { extractProductsFromImages } from '../lib/claude'
+import { getCurrencySymbol } from '../lib/currencies'
 import type { ExtractedProduct } from '../types'
 
 type NewItem = { name: string; price: number | null; weight: string | null; quantity: number }
 
 interface AddItemModalProps {
+  currency: string
   onClose: () => void
   onAdd: (item: NewItem) => Promise<unknown>
   onAddMultiple: (items: NewItem[]) => Promise<void>
 }
 
-export default function AddItemModal({ onClose, onAdd, onAddMultiple }: AddItemModalProps) {
+export default function AddItemModal({ currency, onClose, onAdd, onAddMultiple }: AddItemModalProps) {
   const [mode, setMode] = useState<'manual' | 'photo'>('manual')
+  const sym = getCurrencySymbol(currency)
 
   // Manual state
   const [name, setName] = useState('')
@@ -48,9 +51,20 @@ export default function AddItemModal({ onClose, onAdd, onAddMultiple }: AddItemM
   }
 
   const handleImagesSelected = (files: File[]) => {
-    setSelectedFiles(files)
+    setSelectedFiles((prev) => {
+      const combined = [...prev, ...files]
+      setPreviews(combined.map((f) => URL.createObjectURL(f)))
+      return combined
+    })
     setPhotoError('')
-    setPreviews(files.map((f) => URL.createObjectURL(f)))
+  }
+
+  const removePhoto = (index: number) => {
+    setSelectedFiles((prev) => {
+      const next = prev.filter((_, i) => i !== index)
+      setPreviews(next.map((f) => URL.createObjectURL(f)))
+      return next
+    })
   }
 
   const handleExtract = async () => {
@@ -134,7 +148,7 @@ export default function AddItemModal({ onClose, onAdd, onAddMultiple }: AddItemM
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Price</label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-medium">{sym}</span>
                 <input
                   type="number"
                   value={price}
@@ -142,7 +156,7 @@ export default function AddItemModal({ onClose, onAdd, onAddMultiple }: AddItemM
                   placeholder="0.00"
                   min="0"
                   step="0.01"
-                  className="w-full border border-gray-200 rounded-xl pl-7 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full border border-gray-200 rounded-xl pl-8 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -190,15 +204,23 @@ export default function AddItemModal({ onClose, onAdd, onAddMultiple }: AddItemM
                 <div className="space-y-2">
                   <p className="text-sm text-gray-500">
                     {selectedFiles.length} photo{selectedFiles.length > 1 ? 's' : ''} selected
+                    <span className="text-xs text-gray-400 ml-1">(tap × to remove)</span>
                   </p>
                   <div className="flex gap-2 flex-wrap">
                     {previews.map((src, i) => (
-                      <img
-                        key={i}
-                        src={src}
-                        alt=""
-                        className="w-16 h-16 object-cover rounded-lg border border-gray-100"
-                      />
+                      <div key={i} className="relative">
+                        <img
+                          src={src}
+                          alt=""
+                          className="w-16 h-16 object-cover rounded-lg border border-gray-100"
+                        />
+                        <button
+                          onClick={() => removePhoto(i)}
+                          className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center leading-none"
+                        >
+                          ×
+                        </button>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -214,6 +236,7 @@ export default function AddItemModal({ onClose, onAdd, onAddMultiple }: AddItemM
                 className="w-full bg-indigo-600 text-white font-semibold rounded-xl py-3 hover:bg-indigo-700 disabled:opacity-50 transition-colors"
               >
                 Extract Products with AI
+                {selectedFiles.length > 1 && ` (${selectedFiles.length} photos)`}
               </button>
             </>
           )}
@@ -221,7 +244,7 @@ export default function AddItemModal({ onClose, onAdd, onAddMultiple }: AddItemM
           {photoStep === 'processing' && (
             <div className="text-center py-14 space-y-3">
               <div className="text-5xl animate-pulse">🤖</div>
-              <p className="font-semibold text-gray-700">Analysing photos…</p>
+              <p className="font-semibold text-gray-700">Analysing {selectedFiles.length > 1 ? `${selectedFiles.length} photos` : 'photo'}…</p>
               <p className="text-sm text-gray-400">Claude AI is reading your product images</p>
             </div>
           )}
@@ -251,7 +274,7 @@ export default function AddItemModal({ onClose, onAdd, onAddMultiple }: AddItemM
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div className="relative">
-                      <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs">$</span>
+                      <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-medium">{sym}</span>
                       <input
                         type="number"
                         value={product.price ?? ''}
@@ -259,7 +282,7 @@ export default function AddItemModal({ onClose, onAdd, onAddMultiple }: AddItemM
                         placeholder="Price"
                         min="0"
                         step="0.01"
-                        className="w-full text-sm bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full text-sm bg-white border border-gray-200 rounded-lg pl-7 pr-2 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                       />
                     </div>
                     <input
@@ -275,10 +298,10 @@ export default function AddItemModal({ onClose, onAdd, onAddMultiple }: AddItemM
 
               <div className="flex gap-2 pt-1">
                 <button
-                  onClick={() => { setPhotoStep('upload'); setSelectedFiles([]); setPreviews([]) }}
+                  onClick={() => { setPhotoStep('upload') }}
                   className="flex-1 border border-gray-200 text-gray-600 font-medium rounded-xl py-3 text-sm hover:bg-gray-50 transition-colors"
                 >
-                  Scan More
+                  Add More Photos
                 </button>
                 <button
                   onClick={handleAddAll}
