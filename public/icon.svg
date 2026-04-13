@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="100" fill="#4f46e5"/>
+  <!-- Cart body -->
+  <path d="M120 140 L150 140 L200 340 L370 340 L410 200 L170 200" stroke="white" stroke-width="20" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Cart wheels -->
+  <circle cx="220" cy="380" r="25" fill="white"/>
+  <circle cx="340" cy="380" r="25" fill="white"/>
+  <!-- Snap flash -->
+  <path d="M290 120 L260 200 L290 200 L260 280" stroke="#a5b4fc" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
