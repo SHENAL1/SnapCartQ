@@ -5,7 +5,9 @@
       "Skill(claude-api:*)",
       "mcp__59e66feb-c3fe-4615-b5f8-ffbd3f089dd6__pause_project",
       "Bash(npm install:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(node -e ':*)",
+      "Bash(npm uninstall:*)"
     ]
   }
 }

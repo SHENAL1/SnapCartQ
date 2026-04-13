@@ -16,9 +16,11 @@ export default function Home() {
 
   useEffect(() => {
     if (lists.length === 0) return
+    const listIds = lists.map((l) => l.id)
     supabase
       .from('items')
       .select('list_id, price, quantity')
+      .in('list_id', listIds)
       .then(({ data }) => {
         const s: Record<string, ListStats> = {}
         for (const item of data ?? []) {

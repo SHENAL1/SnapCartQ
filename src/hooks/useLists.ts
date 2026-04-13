@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
+import { getUserId } from '../lib/userId'
 import type { ShoppingList } from '../types'
 
 export function useLists() {
@@ -12,6 +13,7 @@ export function useLists() {
     const { data, error } = await supabase
       .from('shopping_lists')
       .select('*')
+      .eq('user_id', getUserId())
       .order('created_at', { ascending: false })
 
     if (error) setError(error.message)
@@ -26,7 +28,7 @@ export function useLists() {
   const createList = async (name: string, budget?: number | null): Promise<ShoppingList> => {
     const { data, error } = await supabase
       .from('shopping_lists')
-      .insert({ name, budget: budget ?? null })
+      .insert({ name, budget: budget ?? null, user_id: getUserId() })
       .select()
       .single()
 
@@ -40,13 +42,19 @@ export function useLists() {
       .from('shopping_lists')
       .update({ budget })
       .eq('id', id)
+      .eq('user_id', getUserId())
 
     if (error) throw new Error(error.message)
     setLists((prev) => prev.map((l) => (l.id === id ? { ...l, budget } : l)))
   }
 
   const deleteList = async (id: string): Promise<void> => {
-    const { error } = await supabase.from('shopping_lists').delete().eq('id', id)
+    const { error } = await supabase
+      .from('shopping_lists')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', getUserId())
+
     if (error) throw new Error(error.message)
     setLists((prev) => prev.filter((l) => l.id !== id))
   }
