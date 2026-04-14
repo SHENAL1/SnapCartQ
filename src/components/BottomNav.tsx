@@ -1,18 +1,21 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Home, Clock, User } from 'lucide-react'
+import { House, Clock, CircleUser } from 'lucide-react'
 
 const tabs = [
-  { path: '/', label: 'Home', Icon: Home },
+  { path: '/', label: 'Home', Icon: House },
   { path: '/history', label: 'History', Icon: Clock },
-  { path: '/account', label: 'Account', Icon: User },
+  { path: '/account', label: 'Account', Icon: CircleUser },
 ]
+
+const ACTIVE = '#19bfb7'
+const INACTIVE = '#6b7280'
 
 export default function BottomNav() {
   const location = useLocation()
   const navigate = useNavigate()
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-dark border-t border-white/10 z-20">
+    <nav className="fixed bottom-0 left-0 right-0 z-20" style={{ background: '#1e2022', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
       <div className="max-w-lg mx-auto flex">
         {tabs.map(({ path, label, Icon }) => {
           const isActive = location.pathname === path
@@ -24,13 +27,11 @@ export default function BottomNav() {
             >
               <Icon
                 size={22}
-                strokeWidth={isActive ? 2.2 : 1.8}
-                color={isActive ? '#19bfb7' : '#6b7280'}
+                strokeWidth={isActive ? 2 : 1.8}
+                stroke={isActive ? ACTIVE : INACTIVE}
+                fill={isActive ? ACTIVE : 'none'}
               />
-              <span
-                className="text-[10px] font-semibold"
-                style={{ color: isActive ? '#19bfb7' : '#6b7280' }}
-              >
+              <span className="text-[10px] font-semibold" style={{ color: isActive ? ACTIVE : INACTIVE }}>
                 {label}
               </span>
             </button>

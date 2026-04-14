@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { Copy, Trash2 } from 'lucide-react'
 import { formatPrice } from '../lib/currencies'
 import type { ShoppingList } from '../types'
 
@@ -34,18 +35,18 @@ export default function ListCard({ list, itemCount, totalPrice, onDelete, onDupl
         <div className="flex items-center gap-1 shrink-0">
           <button
             onClick={(e) => { e.stopPropagation(); onDuplicate() }}
-            className="p-1.5 text-gray-300 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors"
+            className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
             aria-label="Duplicate list"
             title="Duplicate list"
           >
-            📋
+            <Copy size={16} stroke="#6b7280" strokeWidth={1.8} />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); onDelete() }}
-            className="p-1.5 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+            className="p-1.5 hover:bg-red-50 rounded-lg transition-colors"
             aria-label="Delete list"
           >
-            🗑️
+            <Trash2 size={16} stroke="#6b7280" strokeWidth={1.8} />
           </button>
         </div>
       </div>

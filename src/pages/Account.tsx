@@ -14,7 +14,7 @@ export default function Account() {
   const isAtLimit = monthCount >= FREE_SCAN_LIMIT
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
+    <div className="min-h-screen bg-white pb-20">
       {/* Header */}
       <header className="bg-dark sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center">
