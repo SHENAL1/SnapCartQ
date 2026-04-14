@@ -58,7 +58,7 @@ export default function Home() {
       <header className="bg-dark sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/logo-white.png" alt="SnapCartQ" className="h-7 object-contain" />
+            <img src="/logo-white.png" alt="SnapCartQ" className="h-9 object-contain" />
             <span className="text-xs text-white/30 font-medium">
               {lists.length} list{lists.length !== 1 ? 's' : ''}
             </span>

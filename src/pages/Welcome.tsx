@@ -43,7 +43,7 @@ export default function Welcome() {
     <div className="min-h-screen flex flex-col" style={{ background: '#1e2022' }}>
       {/* Logo + Skip */}
       <div className="flex items-center justify-between px-6 pt-8">
-        <img src="/logo-white.png" alt="SnapCartQ" className="h-6 object-contain" />
+        <img src="/logo-white.png" alt="SnapCartQ" className="h-8 object-contain" />
         {!slide.isFinal && (
           <button
             onClick={finish}

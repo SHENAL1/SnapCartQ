@@ -8,7 +8,9 @@
       "Bash(npm run:*)",
       "Bash(node -e ':*)",
       "Bash(npm uninstall:*)",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(sed -i 's|src=\"/logo-white.png\" alt=\"SnapCartQ\" className=\"h-7 object-contain\"|src=\"/logo-white.png\" alt=\"SnapCartQ\" className=\"h-9 object-contain\"|g' src/pages/Home.tsx src/pages/Account.tsx)",
+      "Bash(sed -i 's|src=\"/logo-white.png\" alt=\"SnapCartQ\" className=\"h-6 object-contain\"|src=\"/logo-white.png\" alt=\"SnapCartQ\" className=\"h-8 object-contain\"|g' src/pages/Welcome.tsx)"
     ]
   }
 }
