@@ -55,29 +55,24 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 pb-20">
       {/* Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
-        <div className="max-w-lg mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-sm font-bold">
-              S
-            </div>
-            <div>
-              <h1 className="text-base font-bold text-gray-900 leading-tight">SnapCartQ</h1>
-              <p className="text-[11px] text-gray-400 leading-tight">
-                {lists.length} list{lists.length !== 1 ? 's' : ''}
-              </p>
-            </div>
+      <header className="bg-dark sticky top-0 z-10">
+        <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img src="/logo-white.png" alt="SnapCartQ" className="h-7 object-contain" />
+            <span className="text-xs text-white/30 font-medium">
+              {lists.length} list{lists.length !== 1 ? 's' : ''}
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowCreate(true)}
-              className="bg-indigo-600 text-white font-semibold rounded-xl px-4 py-2 text-sm hover:bg-indigo-700 active:scale-95 transition-all"
+              className="bg-indigo-500 text-white font-semibold rounded-xl px-4 py-2 text-sm hover:bg-indigo-600 active:scale-95 transition-all"
             >
               + New List
             </button>
             <button
               onClick={() => navigate('/account')}
-              className="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors text-base"
+              className="w-9 h-9 rounded-xl flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors text-base"
               aria-label="Account"
             >
               👤

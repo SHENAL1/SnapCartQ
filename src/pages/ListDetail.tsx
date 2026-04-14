@@ -117,35 +117,35 @@ export default function ListDetail() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
-        <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
+      <header className="bg-dark sticky top-0 z-10">
+        <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center gap-3">
           <button
             onClick={() => navigate('/')}
-            className="p-1.5 -ml-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1.5 -ml-1.5 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm font-medium"
           >
             ← Back
           </button>
-          <h1 className="font-bold text-gray-900 truncate flex-1">
+          <h1 className="font-bold text-white truncate flex-1">
             {list?.name ?? 'Shopping List'}
           </h1>
           <div className="flex items-center gap-1 shrink-0">
             <button
               onClick={handleExport}
-              className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors text-sm"
+              className="p-1.5 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm"
               title="Export list"
             >
               📤
             </button>
             <button
               onClick={handleDuplicate}
-              className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors text-sm"
+              className="p-1.5 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm"
               title="Duplicate list"
             >
               📋
             </button>
             <button
               onClick={() => setShowEditList(true)}
-              className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors text-sm"
+              className="p-1.5 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm"
               title="Edit list settings"
             >
               ⚙️

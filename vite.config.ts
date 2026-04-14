@@ -14,8 +14,8 @@ export default defineConfig({
         name: 'SnapCartQ',
         short_name: 'SnapCartQ',
         description: 'Smart shopping list app with AI-powered product scanning',
-        theme_color: '#4f46e5',
-        background_color: '#ffffff',
+        theme_color: '#19bfb7',
+        background_color: '#1e2022',
         display: 'standalone',
         start_url: '/',
         icons: [

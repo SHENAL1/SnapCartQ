@@ -16,9 +16,10 @@ export default function Account() {
   return (
     <div className="min-h-screen bg-slate-50 pb-20">
       {/* Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
-        <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
-          <h1 className="text-base font-bold text-gray-900">Account</h1>
+      <header className="bg-dark sticky top-0 z-10">
+        <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center gap-3">
+          <img src="/logo-white.png" alt="SnapCartQ" className="h-7 object-contain" />
+          <span className="text-white/40 text-sm font-medium ml-auto">Account</span>
         </div>
       </header>
 
@@ -78,18 +79,19 @@ export default function Account() {
         </div>
 
         {/* Upgrade card */}
-        <div className="bg-indigo-600 rounded-2xl p-4 shadow-sm">
+        <div className="bg-dark rounded-2xl p-4 shadow-sm border border-white/10">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1">
               <p className="font-bold text-white">SnapCartQ Pro</p>
-              <p className="text-indigo-200 text-sm mt-0.5">Unlimited scans + priority support</p>
-              <p className="text-white font-semibold text-lg mt-2">$3.99 / month</p>
+              <p className="text-white/50 text-sm mt-0.5">Unlimited scans + priority support</p>
+              <p className="text-indigo-400 font-semibold text-lg mt-2">$3.99 / month</p>
             </div>
             <span className="text-3xl mt-1">✨</span>
           </div>
           <button
             onClick={() => navigate('/upgrade')}
-            className="w-full mt-4 bg-white text-indigo-600 font-bold rounded-xl py-3 text-sm hover:bg-indigo-50 active:scale-[0.98] transition-all"
+            className="w-full mt-4 font-bold rounded-xl py-3 text-sm active:scale-[0.98] transition-all text-white"
+            style={{ background: '#19bfb7' }}
           >
             Upgrade to Pro
           </button>

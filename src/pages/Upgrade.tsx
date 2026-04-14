@@ -23,15 +23,15 @@ export default function Upgrade() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
-        <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
+      <header className="bg-dark sticky top-0 z-10">
+        <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center gap-3">
           <button
             onClick={() => navigate(-1)}
-            className="p-1.5 -ml-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1.5 -ml-1.5 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm font-medium"
           >
             ← Back
           </button>
-          <h1 className="text-base font-bold text-gray-900">Go Pro</h1>
+          <h1 className="text-base font-bold text-white">Go Pro</h1>
         </div>
       </header>
 
@@ -44,10 +44,10 @@ export default function Upgrade() {
         </div>
 
         {/* Price */}
-        <div className="bg-indigo-600 rounded-2xl p-5 text-center text-white">
-          <p className="text-indigo-200 text-sm font-medium">Monthly plan</p>
+        <div className="rounded-2xl p-5 text-center text-white" style={{ background: '#19bfb7' }}>
+          <p className="text-white/70 text-sm font-medium">Monthly plan</p>
           <p className="text-5xl font-bold mt-1">$3.99</p>
-          <p className="text-indigo-200 text-sm mt-1">per month, cancel anytime</p>
+          <p className="text-white/70 text-sm mt-1">per month, cancel anytime</p>
         </div>
 
         {/* Comparison table */}

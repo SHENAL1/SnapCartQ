@@ -19,15 +19,15 @@ export default function ScanHistory() {
   return (
     <div className="min-h-screen bg-slate-50 pb-20">
       {/* Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
-        <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
+      <header className="bg-dark sticky top-0 z-10">
+        <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center gap-3">
           <button
             onClick={() => navigate(-1)}
-            className="p-1.5 -ml-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1.5 -ml-1.5 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm font-medium"
           >
             ← Back
           </button>
-          <h1 className="text-base font-bold text-gray-900">Scan History</h1>
+          <h1 className="text-base font-bold text-white">Scan History</h1>
         </div>
       </header>
 
