@@ -23,11 +23,14 @@ export default function Settings() {
     setClearing(true)
     try {
       const userId = getUserId()
-      // Delete shopping_lists (items cascade), and scan_history
+      // Delete Supabase data (items cascade from shopping_lists)
       await Promise.all([
         supabase.from('shopping_lists').delete().eq('user_id', userId),
         supabase.from('scan_history').delete().eq('user_id', userId),
       ])
+      // Clear localStorage settings
+      localStorage.removeItem('snapcartq_default_currency')
+      setCurrency('MYR')
       setCleared(true)
       setShowClearConfirm(false)
     } catch {

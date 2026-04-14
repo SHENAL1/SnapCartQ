@@ -85,7 +85,7 @@ export default function ScanHistory() {
                             <span className="text-xs text-gray-400">{p.weight}</span>
                           )}
                           {p.price != null && (
-                            <span className="text-xs font-medium text-gray-600">{p.price}</span>
+                            <span className="text-xs font-medium text-gray-600">{Number(p.price).toFixed(2)}</span>
                           )}
                         </div>
                       </div>

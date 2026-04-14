@@ -19,18 +19,18 @@ function OnboardingGuard({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 
-function GuardedHome() {
-  return <OnboardingGuard><Home /></OnboardingGuard>
+function Guarded({ children }: { children: React.ReactNode }) {
+  return <OnboardingGuard>{children}</OnboardingGuard>
 }
 
 const router = createBrowserRouter([
   { path: '/welcome', element: <Welcome /> },
-  { path: '/', element: <GuardedHome /> },
-  { path: '/list/:id', element: <ListDetail /> },
-  { path: '/history', element: <ScanHistory /> },
-  { path: '/account', element: <Account /> },
-  { path: '/settings', element: <Settings /> },
-  { path: '/upgrade', element: <Upgrade /> },
+  { path: '/', element: <Guarded><Home /></Guarded> },
+  { path: '/list/:id', element: <Guarded><ListDetail /></Guarded> },
+  { path: '/history', element: <Guarded><ScanHistory /></Guarded> },
+  { path: '/account', element: <Guarded><Account /></Guarded> },
+  { path: '/settings', element: <Guarded><Settings /></Guarded> },
+  { path: '/upgrade', element: <Guarded><Upgrade /></Guarded> },
 ])
 
 export default function App() {

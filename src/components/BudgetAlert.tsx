@@ -15,7 +15,7 @@ interface WeightAlertProps {
 
 export function BudgetAlert({ budget, spent, currency, onExtend }: BudgetAlertProps) {
   const overage = spent - budget
-  const suggestedBudget = Math.ceil(spent / 10) * 10
+  const suggestedBudget = (Math.floor(spent / 10) + 1) * 10
 
   return (
     <div className="bg-red-50 border border-red-200 rounded-2xl p-4 flex items-start gap-3">
