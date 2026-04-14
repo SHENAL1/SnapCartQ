@@ -231,13 +231,19 @@ export default function ListDetail() {
           )}
 
           {!loading && items.length === 0 && (
-            <div className="px-4 pb-6 pt-1 text-center">
-              <p className="text-gray-300 text-sm">No items yet</p>
+            <div className="px-4 pb-8 pt-2 flex flex-col items-center text-center space-y-3">
+              <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center">
+                <span className="text-3xl">📦</span>
+              </div>
+              <div>
+                <p className="font-medium text-gray-600 text-sm">No items yet</p>
+                <p className="text-xs text-gray-400 mt-0.5">Add manually or scan a product photo</p>
+              </div>
               <button
                 onClick={() => setShowAdd(true)}
-                className="mt-1.5 text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                className="bg-indigo-600 text-white font-semibold rounded-xl px-5 py-2.5 text-sm hover:bg-indigo-700 active:scale-[0.98] transition-all"
               >
-                Add your first item →
+                Add Your First Item
               </button>
             </div>
           )}

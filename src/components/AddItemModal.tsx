@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Modal from './Modal'
 import ImageUpload from './ImageUpload'
 import { extractProductsFromImages } from '../lib/claude'
 import { getCurrencySymbol } from '../lib/currencies'
+import { logScan, getMonthScanCount, FREE_SCAN_LIMIT } from '../lib/scanHistory'
 import type { ExtractedProduct } from '../types'
 
 type NewItem = { name: string; price: number | null; weight: string | null; quantity: number }
@@ -17,6 +19,7 @@ interface AddItemModalProps {
 export default function AddItemModal({ currency, onClose, onAdd, onAddMultiple }: AddItemModalProps) {
   const [mode, setMode] = useState<'manual' | 'photo'>('manual')
   const sym = getCurrencySymbol(currency)
+  const navigate = useNavigate()
 
   // Manual state
   const [name, setName] = useState('')
@@ -69,10 +72,21 @@ export default function AddItemModal({ currency, onClose, onAdd, onAddMultiple }
 
   const handleExtract = async () => {
     if (selectedFiles.length === 0) return
+
+    // Check scan limit
+    const monthCount = await getMonthScanCount()
+    if (monthCount >= FREE_SCAN_LIMIT) {
+      onClose()
+      navigate('/upgrade')
+      return
+    }
+
     setPhotoStep('processing')
     setPhotoError('')
     try {
       const products = await extractProductsFromImages(selectedFiles)
+      // Log scan regardless of result
+      await logScan(selectedFiles.length, products)
       if (products.length === 0) {
         setPhotoError('No products detected. Try clearer photos or switch to manual entry.')
         setPhotoStep('upload')

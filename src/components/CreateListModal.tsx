@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Modal from './Modal'
 import { CURRENCIES } from '../lib/currencies'
+import { getDefaultCurrency } from '../lib/scanHistory'
 
 interface CreateListModalProps {
   onClose: () => void
@@ -10,7 +11,7 @@ interface CreateListModalProps {
 export default function CreateListModal({ onClose, onCreate }: CreateListModalProps) {
   const [name, setName] = useState('')
   const [budget, setBudget] = useState('')
-  const [currency, setCurrency] = useState('MYR')
+  const [currency, setCurrency] = useState(getDefaultCurrency)
   const [weightLimit, setWeightLimit] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
