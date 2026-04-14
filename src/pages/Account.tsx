@@ -17,9 +17,8 @@ export default function Account() {
     <div className="min-h-screen bg-slate-50 pb-20">
       {/* Header */}
       <header className="bg-dark sticky top-0 z-10">
-        <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center gap-3">
-          <img src="/logo-white.png" alt="SnapCartQ" className="h-9 object-contain" />
-          <span className="text-white/40 text-sm font-medium ml-auto">Account</span>
+        <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center">
+          <h1 className="text-lg font-bold text-white tracking-tight">Account</h1>
         </div>
       </header>
 
