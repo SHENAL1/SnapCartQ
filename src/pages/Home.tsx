@@ -58,7 +58,7 @@ export default function Home() {
           <h1 className="text-lg font-bold text-white tracking-tight">SnapCartQ</h1>
           <button
             onClick={() => setShowCreate(true)}
-            className="bg-indigo-500 text-white font-semibold rounded-xl px-4 py-2 text-sm hover:bg-indigo-600 active:scale-95 transition-all"
+            className="bg-indigo-600 text-white font-semibold rounded-xl px-4 py-2 text-sm hover:bg-indigo-700 active:scale-95 transition-all"
           >
             + New List
           </button>

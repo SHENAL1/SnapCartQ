@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { Upload, Copy, SlidersHorizontal } from 'lucide-react'
 import { useLists } from '../hooks/useLists'
 import { useItems } from '../hooks/useItems'
 import ItemRow from '../components/ItemRow'
@@ -115,7 +116,7 @@ export default function ListDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white pb-8">
       {/* Header */}
       <header className="bg-dark sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center gap-3">
@@ -128,27 +129,27 @@ export default function ListDetail() {
           <h1 className="font-bold text-white truncate flex-1">
             {list?.name ?? 'Shopping List'}
           </h1>
-          <div className="flex items-center gap-1 shrink-0">
+          <div className="flex items-center gap-0.5 shrink-0">
             <button
               onClick={handleExport}
-              className="p-1.5 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm"
+              className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
               title="Export list"
             >
-              📤
+              <Upload size={17} />
             </button>
             <button
               onClick={handleDuplicate}
-              className="p-1.5 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm"
+              className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
               title="Duplicate list"
             >
-              📋
+              <Copy size={17} />
             </button>
             <button
               onClick={() => setShowEditList(true)}
-              className="p-1.5 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm"
+              className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
               title="Edit list settings"
             >
-              ⚙️
+              <SlidersHorizontal size={17} />
             </button>
           </div>
         </div>

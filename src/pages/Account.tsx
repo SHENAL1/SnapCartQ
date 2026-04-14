@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { Clock, Settings, ChevronRight } from 'lucide-react'
 import { getUserId } from '../lib/userId'
 import { FREE_SCAN_LIMIT } from '../lib/scanHistory'
 import { useScanHistory } from '../hooks/useScanHistory'
@@ -103,20 +104,24 @@ export default function Account() {
             className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors border-b border-gray-50"
           >
             <div className="flex items-center gap-3">
-              <span className="text-lg">🕐</span>
+              <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
+                <Clock size={16} className="text-indigo-500" />
+              </div>
               <span className="text-sm font-medium text-gray-700">Scan History</span>
             </div>
-            <span className="text-gray-300 text-sm">→</span>
+            <ChevronRight size={16} className="text-gray-300" />
           </button>
           <button
             onClick={() => navigate('/settings')}
             className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors"
           >
             <div className="flex items-center gap-3">
-              <span className="text-lg">⚙️</span>
+              <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+                <Settings size={16} className="text-gray-500" />
+              </div>
               <span className="text-sm font-medium text-gray-700">Settings</span>
             </div>
-            <span className="text-gray-300 text-sm">→</span>
+            <ChevronRight size={16} className="text-gray-300" />
           </button>
         </div>
       </main>

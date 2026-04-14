@@ -27,9 +27,9 @@ export default function BottomNav() {
             >
               <Icon
                 size={22}
-                strokeWidth={isActive ? 2 : 1.8}
+                strokeWidth={isActive ? 2.2 : 1.7}
                 stroke={isActive ? ACTIVE : INACTIVE}
-                fill={isActive ? ACTIVE : 'none'}
+                fill="none"
               />
               <span className="text-[10px] font-semibold" style={{ color: isActive ? ACTIVE : INACTIVE }}>
                 {label}
