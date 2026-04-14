@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useLists } from '../hooks/useLists'
 import { supabase } from '../lib/supabase'
 import ListCard from '../components/ListCard'
@@ -12,7 +11,6 @@ interface ListStats {
 }
 
 export default function Home() {
-  const navigate = useNavigate()
   const { lists, loading, error, createList, deleteList, duplicateList } = useLists()
   const [showCreate, setShowCreate] = useState(false)
   const [stats, setStats] = useState<Record<string, ListStats>>({})
@@ -57,27 +55,13 @@ export default function Home() {
       {/* Header */}
       <header className="bg-dark sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src="/logo-white.png" alt="SnapCartQ" className="h-9 object-contain" />
-            <span className="text-xs text-white/30 font-medium">
-              {lists.length} list{lists.length !== 1 ? 's' : ''}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setShowCreate(true)}
-              className="bg-indigo-500 text-white font-semibold rounded-xl px-4 py-2 text-sm hover:bg-indigo-600 active:scale-95 transition-all"
-            >
-              + New List
-            </button>
-            <button
-              onClick={() => navigate('/account')}
-              className="w-9 h-9 rounded-xl flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors text-base"
-              aria-label="Account"
-            >
-              👤
-            </button>
-          </div>
+          <h1 className="text-lg font-bold text-white tracking-tight">SnapCartQ</h1>
+          <button
+            onClick={() => setShowCreate(true)}
+            className="bg-indigo-500 text-white font-semibold rounded-xl px-4 py-2 text-sm hover:bg-indigo-600 active:scale-95 transition-all"
+          >
+            + New List
+          </button>
         </div>
       </header>
 
