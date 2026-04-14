@@ -128,10 +128,6 @@ export default function Settings() {
               <span className="text-gray-500">Website</span>
               <span className="text-indigo-600 font-medium">snapcartq.com</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-gray-500">AI Model</span>
-              <span className="text-gray-700 font-medium">Claude Sonnet</span>
-            </div>
           </div>
         </div>
       </main>
