@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Trash2 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { getUserId } from '../lib/userId'
 import { CURRENCIES } from '../lib/currencies'
@@ -23,12 +24,10 @@ export default function Settings() {
     setClearing(true)
     try {
       const userId = getUserId()
-      // Delete Supabase data (items cascade from shopping_lists)
       await Promise.all([
         supabase.from('shopping_lists').delete().eq('user_id', userId),
         supabase.from('scan_history').delete().eq('user_id', userId),
       ])
-      // Clear localStorage settings
       localStorage.removeItem('snapcartq_default_currency')
       setCurrency('MYR')
       setCleared(true)
@@ -55,84 +54,98 @@ export default function Settings() {
         </div>
       </header>
 
-      <main className="max-w-lg mx-auto px-4 py-5 space-y-4">
-        {/* Default currency */}
-        <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-          <h2 className="font-semibold text-gray-900 mb-3">Default Currency</h2>
-          <p className="text-xs text-gray-400 mb-3">Applied to new lists you create.</p>
-          <select
-            value={currency}
-            onChange={(e) => handleCurrencyChange(e.target.value)}
-            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
-          >
-            {CURRENCIES.map((c) => (
-              <option key={c.code} value={c.code}>
-                {c.code} – {c.name} ({c.symbol})
-              </option>
-            ))}
-          </select>
+      <main className="max-w-lg mx-auto px-4 py-5 space-y-5">
+
+        {/* PREFERENCES section */}
+        <div>
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">
+            Preferences
+          </p>
+          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div className="flex items-center justify-between px-4 py-3.5">
+              <span className="text-sm font-medium text-gray-700">Default Currency</span>
+              <select
+                value={currency}
+                onChange={(e) => handleCurrencyChange(e.target.value)}
+                className="text-sm font-semibold text-gray-900 bg-transparent border-none focus:outline-none focus:ring-0 cursor-pointer text-right max-w-[160px]"
+              >
+                {CURRENCIES.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.code} – {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <p className="text-xs text-gray-400 mt-1.5 px-1">Applied to new lists you create.</p>
         </div>
 
-        {/* Data */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="px-4 py-3 border-b border-gray-50">
-            <h2 className="font-semibold text-gray-900">Data</h2>
-          </div>
-
-          {cleared ? (
-            <div className="px-4 py-4 text-sm text-green-700 bg-green-50 flex items-center gap-2">
-              <span>✓</span> All data cleared successfully.
-            </div>
-          ) : (
-            <div className="px-4 py-3">
-              {!showClearConfirm ? (
-                <button
-                  onClick={() => setShowClearConfirm(true)}
-                  className="text-sm font-medium text-red-600 hover:text-red-700 transition-colors"
-                >
-                  Clear All Data…
-                </button>
-              ) : (
-                <div className="space-y-3">
-                  <p className="text-sm text-gray-700">
-                    This will permanently delete all your shopping lists, items, and scan history.
-                    <strong> This cannot be undone.</strong>
-                  </p>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setShowClearConfirm(false)}
-                      className="flex-1 border border-gray-200 text-gray-600 font-medium rounded-xl py-2.5 text-sm hover:bg-gray-50 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={handleClearData}
-                      disabled={clearing}
-                      className="flex-1 bg-red-600 text-white font-semibold rounded-xl py-2.5 text-sm hover:bg-red-700 disabled:opacity-50 transition-colors"
-                    >
-                      {clearing ? 'Clearing…' : 'Delete Everything'}
-                    </button>
+        {/* DATA section */}
+        <div>
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">
+            Data
+          </p>
+          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            {cleared ? (
+              <div className="px-4 py-4 text-sm text-green-700 bg-green-50 flex items-center gap-2">
+                <span>✓</span> All data cleared successfully.
+              </div>
+            ) : !showClearConfirm ? (
+              <button
+                onClick={() => setShowClearConfirm(true)}
+                className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: '#fef2f2' }}>
+                    <Trash2 size={16} stroke="#f87171" strokeWidth={2} />
                   </div>
+                  <span className="text-sm font-medium text-gray-700">Clear All Data</span>
                 </div>
-              )}
-            </div>
-          )}
+                <span className="text-xs font-bold text-red-500">Delete</span>
+              </button>
+            ) : (
+              <div className="px-4 py-4 space-y-3">
+                <p className="text-sm text-gray-700">
+                  This will permanently delete all your shopping lists, items, and scan history.{' '}
+                  <strong>This cannot be undone.</strong>
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setShowClearConfirm(false)}
+                    className="flex-1 border border-gray-200 text-gray-600 font-medium rounded-xl py-2.5 text-sm hover:bg-gray-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleClearData}
+                    disabled={clearing}
+                    className="flex-1 bg-red-500 text-white font-bold rounded-xl py-2.5 text-sm hover:bg-red-600 disabled:opacity-50 transition-colors"
+                  >
+                    {clearing ? 'Clearing…' : 'Delete Everything'}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* About */}
-        <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 space-y-3">
-          <h2 className="font-semibold text-gray-900">About</h2>
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-gray-500">Version</span>
-              <span className="text-gray-700 font-medium">{APP_VERSION}</span>
+        {/* ABOUT section */}
+        <div>
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">
+            About
+          </p>
+          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+            <div className="flex items-center justify-between px-4 py-3.5">
+              <span className="text-sm font-medium text-gray-700">Version</span>
+              <span className="text-sm text-gray-400">{APP_VERSION}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-gray-500">Website</span>
-              <span className="text-indigo-600 font-medium">snapcartq.com</span>
+            <div className="flex items-center justify-between px-4 py-3.5">
+              <span className="text-sm font-medium text-gray-700">Website</span>
+              <span className="text-sm font-semibold" style={{ color: '#19bfb7' }}>snapcartq.com</span>
             </div>
           </div>
         </div>
+
       </main>
     </div>
   )

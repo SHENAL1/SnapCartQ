@@ -30,7 +30,6 @@ export default function ListDetail() {
   const currency = list?.currency ?? 'MYR'
   const isOverBudget = list?.budget != null && totalPrice > list.budget
   const isOverWeight = list?.weight_limit != null && totalWeightKg > list.weight_limit
-  const weightedItems = items.filter((i) => i.weight)
 
   const handleDeleteItem = async (itemId: string) => {
     if (!confirm('Remove this item?')) return
@@ -155,39 +154,30 @@ export default function ListDetail() {
         </div>
       </header>
 
-      <main className="max-w-lg mx-auto px-4 py-5 space-y-4">
-        {/* Stats row */}
-        <div className="grid grid-cols-3 gap-3">
-          <div className="bg-white rounded-2xl p-3 text-center shadow-sm border border-gray-100">
-            <p className="text-2xl font-bold text-gray-900">{items.length}</p>
-            <p className="text-xs text-gray-400 mt-0.5">Items</p>
+      <main className="max-w-lg mx-auto px-4 py-4 space-y-4">
+        {/* Stats bar */}
+        <div className="grid grid-cols-3 divide-x divide-gray-100 bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div className="px-3 py-3 text-center">
+            <p className="text-xs text-gray-400 mb-1">Total Items</p>
+            <p className="text-xl font-bold text-gray-900">{items.length}</p>
           </div>
-          <div className="bg-white rounded-2xl p-3 text-center shadow-sm border border-gray-100">
-            <p className={`text-lg font-bold ${isOverBudget ? 'text-red-600' : 'text-indigo-600'}`}>
+          <div className="px-3 py-3 text-center">
+            <p className="text-xs text-gray-400 mb-1">Total Price</p>
+            <p className={`text-base font-bold truncate ${isOverBudget ? 'text-red-500' : 'text-gray-900'}`}>
               {formatPrice(totalPrice, currency)}
             </p>
-            <p className="text-xs text-gray-400 mt-0.5">Total</p>
           </div>
-          <div className="bg-white rounded-2xl p-3 text-center shadow-sm border border-gray-100">
-            {list?.weight_limit != null ? (
-              <>
-                <p className={`text-sm font-bold ${isOverWeight ? 'text-red-600' : 'text-gray-900'}`}>
-                  {formatWeightKg(totalWeightKg)}
-                </p>
-                <p className="text-xs text-gray-400 mt-0.5">Weight</p>
-              </>
-            ) : (
-              <>
-                <p className="text-2xl font-bold text-gray-900">{weightedItems.length}</p>
-                <p className="text-xs text-gray-400 mt-0.5">With weight</p>
-              </>
-            )}
+          <div className="px-3 py-3 text-center">
+            <p className="text-xs text-gray-400 mb-1">Total Weight</p>
+            <p className={`text-base font-bold ${isOverWeight ? 'text-red-500' : 'text-gray-900'}`}>
+              {totalWeightKg > 0 ? formatWeightKg(totalWeightKg) : '—'}
+            </p>
           </div>
         </div>
 
         {/* Budget bar */}
         {list?.budget != null && (
-          <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 space-y-3">
+          <div className="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
             <BudgetBar budget={list.budget} spent={totalPrice} currency={currency} />
             {list.weight_limit != null && (
               <WeightBar limitKg={list.weight_limit} usedKg={totalWeightKg} />
@@ -197,7 +187,7 @@ export default function ListDetail() {
 
         {/* Weight bar without budget */}
         {list?.budget == null && list?.weight_limit != null && (
-          <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+          <div className="bg-white rounded-2xl border border-gray-200 p-4">
             <WeightBar limitKg={list.weight_limit} usedKg={totalWeightKg} />
           </div>
         )}
@@ -215,34 +205,36 @@ export default function ListDetail() {
           <WeightAlert limitKg={list.weight_limit} usedKg={totalWeightKg} />
         )}
 
-        {/* Items card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
-          <div className="px-4 pt-4 pb-2 flex items-center justify-between">
-            <h2 className="font-semibold text-gray-900">Items</h2>
+        {/* Items section */}
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="font-bold text-gray-900">Items</h2>
             <button
               onClick={() => setShowAdd(true)}
-              className="bg-indigo-600 text-white font-semibold rounded-xl px-4 py-2 text-sm hover:bg-indigo-700 active:scale-95 transition-all"
+              className="text-white font-bold rounded-full px-5 py-2 text-sm"
+              style={{ background: '#19bfb7' }}
             >
               + Add
             </button>
           </div>
 
           {loading && (
-            <p className="px-4 pb-4 text-sm text-gray-300">Loading…</p>
+            <p className="text-sm text-gray-300 text-center py-8">Loading…</p>
           )}
 
           {!loading && items.length === 0 && (
-            <div className="px-4 pb-8 pt-2 flex flex-col items-center text-center space-y-3">
-              <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center">
+            <div className="flex flex-col items-center text-center space-y-3 py-10">
+              <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center">
                 <span className="text-3xl">📦</span>
               </div>
               <div>
-                <p className="font-medium text-gray-600 text-sm">No items yet</p>
+                <p className="font-semibold text-gray-600 text-sm">No items yet</p>
                 <p className="text-xs text-gray-400 mt-0.5">Add manually or scan a product photo</p>
               </div>
               <button
                 onClick={() => setShowAdd(true)}
-                className="bg-indigo-600 text-white font-semibold rounded-xl px-5 py-2.5 text-sm hover:bg-indigo-700 active:scale-[0.98] transition-all"
+                className="text-white font-bold rounded-full px-6 py-2.5 text-sm"
+                style={{ background: '#19bfb7' }}
               >
                 Add Your First Item
               </button>
@@ -250,7 +242,7 @@ export default function ListDetail() {
           )}
 
           {items.length > 0 && (
-            <div className="px-4 pb-3">
+            <div className="space-y-2">
               {items.map((item) => (
                 <ItemRow
                   key={item.id}
@@ -260,10 +252,11 @@ export default function ListDetail() {
                   onDelete={() => handleDeleteItem(item.id)}
                 />
               ))}
+
               {/* Total row */}
-              <div className="flex justify-between items-center pt-3 mt-1 border-t border-gray-100">
-                <span className="text-sm font-medium text-gray-500">Total</span>
-                <span className={`font-bold text-lg ${isOverBudget ? 'text-red-600' : 'text-gray-900'}`}>
+              <div className="flex justify-between items-center pt-3 px-1">
+                <span className="text-sm font-semibold text-gray-500">Total</span>
+                <span className={`font-bold text-lg ${isOverBudget ? 'text-red-500' : 'text-gray-900'}`}>
                   {formatPrice(totalPrice, currency)}
                 </span>
               </div>

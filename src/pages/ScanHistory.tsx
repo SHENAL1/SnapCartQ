@@ -35,7 +35,11 @@ export default function ScanHistory() {
         {loading && (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 animate-pulse">
+              <div
+                key={i}
+                className="bg-white rounded-xl border border-gray-200 p-4 animate-pulse"
+                style={{ borderLeftWidth: 4, borderLeftColor: '#19bfb7' }}
+              >
                 <div className="h-4 bg-gray-100 rounded w-1/3 mb-2" />
                 <div className="h-3 bg-gray-100 rounded w-2/3" />
               </div>
@@ -58,17 +62,18 @@ export default function ScanHistory() {
             {history.map((entry) => (
               <div
                 key={entry.id}
-                className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100"
+                className="bg-white rounded-xl border border-gray-200 overflow-hidden"
+                style={{ borderLeftWidth: 4, borderLeftColor: '#19bfb7' }}
               >
-                {/* Header row */}
-                <div className="flex items-start justify-between mb-3">
+                {/* Card header */}
+                <div className="flex items-start justify-between px-4 pt-3.5 pb-2">
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">{formatDate(entry.scanned_at)}</p>
+                    <p className="text-sm font-bold text-gray-900">{formatDate(entry.scanned_at)}</p>
                     <p className="text-xs text-gray-400 mt-0.5">{formatTime(entry.scanned_at)}</p>
                   </div>
-                  <div className="flex items-center gap-1.5 bg-indigo-50 px-2.5 py-1 rounded-full">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{ background: '#f0fdfb' }}>
                     <span className="text-xs">📷</span>
-                    <span className="text-xs font-medium text-indigo-700">
+                    <span className="text-xs font-semibold" style={{ color: '#19bfb7' }}>
                       {entry.photo_count} photo{entry.photo_count !== 1 ? 's' : ''}
                     </span>
                   </div>
@@ -76,23 +81,30 @@ export default function ScanHistory() {
 
                 {/* Products */}
                 {entry.products.length > 0 ? (
-                  <div className="space-y-1.5">
-                    {entry.products.map((p, i) => (
-                      <div key={i} className="flex items-center justify-between text-sm">
-                        <span className="text-gray-700 truncate flex-1">{p.name}</span>
-                        <div className="flex items-center gap-2 shrink-0 ml-2">
-                          {p.weight && (
-                            <span className="text-xs text-gray-400">{p.weight}</span>
-                          )}
-                          {p.price != null && (
-                            <span className="text-xs font-medium text-gray-600">{Number(p.price).toFixed(2)}</span>
-                          )}
+                  <div className="px-4 pb-3">
+                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">
+                      Extracted Products
+                    </p>
+                    <div className="divide-y divide-gray-100">
+                      {entry.products.map((p, i) => (
+                        <div key={i} className="flex items-center justify-between py-2 text-sm">
+                          <span className="text-gray-700 truncate flex-1">{p.name}</span>
+                          <div className="flex items-center gap-2 shrink-0 ml-2">
+                            {p.weight && (
+                              <span className="text-xs text-gray-400">{p.weight}</span>
+                            )}
+                            {p.price != null && (
+                              <span className="text-xs font-semibold text-gray-700">
+                                {Number(p.price).toFixed(2)}
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 ) : (
-                  <p className="text-xs text-gray-400 italic">No products extracted</p>
+                  <p className="px-4 pb-3 text-xs text-gray-400 italic">No products extracted</p>
                 )}
               </div>
             ))}

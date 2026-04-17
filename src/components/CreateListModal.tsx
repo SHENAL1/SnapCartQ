@@ -102,7 +102,8 @@ export default function CreateListModal({ onClose, onCreate }: CreateListModalPr
         <button
           type="submit"
           disabled={loading || !name.trim()}
-          className="w-full bg-indigo-600 text-white font-semibold rounded-xl py-3 hover:bg-indigo-700 disabled:opacity-50 transition-colors"
+          className="w-full text-white font-bold rounded-full py-3.5 disabled:opacity-50 transition-opacity text-sm"
+          style={{ background: '#19bfb7' }}
         >
           {loading ? 'Creating…' : 'Create List'}
         </button>

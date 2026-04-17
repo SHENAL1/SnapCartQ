@@ -1,3 +1,4 @@
+import { Pencil, Trash2 } from 'lucide-react'
 import { formatPrice } from '../lib/currencies'
 import type { Item } from '../types'
 
@@ -11,48 +12,47 @@ interface ItemRowProps {
 export default function ItemRow({ item, currency, onEdit, onDelete }: ItemRowProps) {
   const subtotal = (item.price ?? 0) * item.quantity
 
+  // Build dot-separated meta string
+  const meta: string[] = []
+  if (item.price != null) meta.push(formatPrice(item.price, currency))
+  if (item.weight) meta.push(item.weight)
+  if (item.quantity > 1) meta.push(`×${item.quantity}`)
+
   return (
-    <div className="flex items-center gap-3 py-3 border-b border-gray-50 last:border-0">
-      <div className="flex-1 min-w-0">
-        <p className="font-medium text-gray-900 text-sm truncate">{item.name}</p>
-        <div className="flex items-center gap-2 mt-0.5">
-          {item.quantity > 1 && (
-            <span className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">×{item.quantity}</span>
-          )}
-          {item.weight && (
-            <span className="text-xs text-gray-400">{item.weight}</span>
-          )}
+    <div className="bg-white rounded-xl border border-gray-200 p-4">
+      {/* Top row: name + action buttons */}
+      <div className="flex items-start justify-between gap-2 mb-1">
+        <p className="font-bold text-gray-900 text-sm leading-snug flex-1 min-w-0">{item.name}</p>
+        <div className="flex items-center gap-1 shrink-0 -mt-0.5">
+          <button
+            onClick={onEdit}
+            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+            aria-label="Edit item"
+          >
+            <Pencil size={14} stroke="#9ca3af" strokeWidth={2} />
+          </button>
+          <button
+            onClick={onDelete}
+            className="p-1.5 rounded-lg transition-colors"
+            style={{ background: '#fef2f2' }}
+            aria-label="Delete item"
+          >
+            <Trash2 size={14} stroke="#f87171" strokeWidth={2} />
+          </button>
         </div>
       </div>
 
-      <div className="text-right shrink-0 mr-1">
-        {item.price != null ? (
-          <>
-            <p className="font-semibold text-gray-900 text-sm">{formatPrice(subtotal, currency)}</p>
-            {item.quantity > 1 && (
-              <p className="text-xs text-gray-400">{formatPrice(item.price, currency)} ea</p>
-            )}
-          </>
-        ) : (
-          <p className="text-xs text-gray-300 italic">no price</p>
-        )}
-      </div>
+      {/* Meta: price · weight · qty */}
+      {meta.length > 0 && (
+        <p className="text-xs text-gray-400 mb-2">{meta.join(' · ')}</p>
+      )}
 
-      <div className="flex gap-0.5 shrink-0">
-        <button
-          onClick={onEdit}
-          className="p-2 text-gray-300 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-          aria-label="Edit item"
-        >
-          ✏️
-        </button>
-        <button
-          onClick={onDelete}
-          className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-          aria-label="Delete item"
-        >
-          🗑️
-        </button>
+      {/* Subtotal row */}
+      <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+        <span className="text-xs text-gray-400">Subtotal</span>
+        <span className="text-sm font-bold text-gray-900">
+          {item.price != null ? formatPrice(subtotal, currency) : '—'}
+        </span>
       </div>
     </div>
   )

@@ -19,54 +19,62 @@ export default function ListCard({ list, itemCount, totalPrice, onDelete, onDupl
 
   return (
     <div
-      className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 cursor-pointer hover:shadow-md active:scale-[0.99] transition-all"
+      className="bg-white rounded-2xl border border-gray-200 p-4 cursor-pointer active:scale-[0.99] transition-all"
       onClick={() => navigate(`/list/${list.id}`)}
     >
-      <div className="flex items-start justify-between gap-2">
+      {/* Top row: name + actions */}
+      <div className="flex items-start justify-between gap-2 mb-3">
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <h3 className="font-semibold text-gray-900 truncate">{list.name}</h3>
-            <span className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded shrink-0">{currency}</span>
+          <div className="flex items-center gap-2 flex-wrap">
+            <h3 className="font-bold text-gray-900 text-sm">{list.name}</h3>
+            <span
+              className="text-[10px] font-semibold text-white px-2 py-0.5 rounded-full shrink-0"
+              style={{ background: '#1e2022' }}
+            >
+              {currency}
+            </span>
           </div>
           <p className="text-xs text-gray-400 mt-0.5">
             {itemCount} item{itemCount !== 1 ? 's' : ''}
           </p>
         </div>
-        <div className="flex items-center gap-1 shrink-0">
+        <div className="flex items-center gap-0.5 shrink-0">
           <button
             onClick={(e) => { e.stopPropagation(); onDuplicate() }}
             className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
             aria-label="Duplicate list"
-            title="Duplicate list"
           >
-            <Copy size={16} stroke="#6b7280" strokeWidth={1.8} />
+            <Copy size={15} stroke="#9ca3af" strokeWidth={1.8} />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); onDelete() }}
             className="p-1.5 hover:bg-red-50 rounded-lg transition-colors"
             aria-label="Delete list"
           >
-            <Trash2 size={16} stroke="#6b7280" strokeWidth={1.8} />
+            <Trash2 size={15} stroke="#9ca3af" strokeWidth={1.8} />
           </button>
         </div>
       </div>
 
-      <div className="mt-3 flex items-end justify-between">
-        <p className={`text-xl font-bold ${isOver ? 'text-red-600' : 'text-gray-900'}`}>
+      {/* Total + budget */}
+      <div className="flex items-end justify-between mb-3">
+        <p className={`text-xl font-bold ${isOver ? 'text-red-500' : 'text-gray-900'}`}>
           {formatPrice(totalPrice, currency)}
         </p>
         {list.budget != null && (
-          <p className="text-sm text-gray-400">of {formatPrice(list.budget, currency)}</p>
+          <p className="text-xs text-gray-400">of {formatPrice(list.budget, currency)}</p>
         )}
       </div>
 
+      {/* Progress bar */}
       {list.budget != null && (
-        <div className="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+        <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
           <div
-            className={`h-full rounded-full transition-all ${
-              isOver ? 'bg-red-500' : budgetPct > 80 ? 'bg-amber-400' : 'bg-indigo-500'
-            }`}
-            style={{ width: `${budgetPct}%` }}
+            className="h-full rounded-full transition-all"
+            style={{
+              width: `${budgetPct}%`,
+              background: isOver ? '#ef4444' : budgetPct > 80 ? '#f59e0b' : '#19bfb7',
+            }}
           />
         </div>
       )}

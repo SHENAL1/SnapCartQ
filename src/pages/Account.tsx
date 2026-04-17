@@ -19,78 +19,74 @@ export default function Account() {
       {/* Header */}
       <header className="bg-dark sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-3.5 flex items-center">
-          <h1 className="text-lg font-bold text-white tracking-tight">Account</h1>
+          <h1 className="text-base font-bold text-white">Account</h1>
         </div>
       </header>
 
-      <main className="max-w-lg mx-auto px-4 py-5 space-y-4">
-        {/* Device identity */}
-        <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-indigo-100 flex items-center justify-center text-2xl font-bold text-indigo-600">
-              {shortId[0]}
-            </div>
-            <div>
-              <p className="font-semibold text-gray-900">Device Account</p>
-              <p className="text-xs text-gray-400 mt-0.5">ID: {shortId}</p>
-              <span className="inline-block mt-1 text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-medium">
-                Free Plan
-              </span>
-            </div>
-          </div>
+      <main className="max-w-lg mx-auto px-4 py-5 space-y-3">
+
+        {/* Device ID card */}
+        <div className="bg-white rounded-xl border border-gray-200 p-4">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Device ID</p>
+          <p className="font-bold text-gray-900 text-base tracking-wider">{shortId}</p>
+          <p className="text-xs text-gray-400 mt-1">Your data is stored locally on this device</p>
         </div>
 
-        {/* Scan usage */}
-        <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 space-y-3">
-          <div className="flex items-center justify-between">
-            <h2 className="font-semibold text-gray-900">Photo Scans</h2>
-            <span className="text-xs text-gray-400">This month</span>
-          </div>
-
-          {loading ? (
-            <div className="h-8 bg-gray-100 rounded-lg animate-pulse" />
-          ) : (
-            <>
-              <div className="flex items-end justify-between">
-                <span className={`text-3xl font-bold ${isAtLimit ? 'text-red-600' : 'text-gray-900'}`}>
-                  {monthCount}
-                </span>
-                <span className="text-sm text-gray-400">of {FREE_SCAN_LIMIT} free</span>
-              </div>
-              <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
-                <div
-                  className={`h-full rounded-full transition-all ${
-                    isAtLimit ? 'bg-red-500' : usagePct > 80 ? 'bg-amber-400' : 'bg-indigo-500'
-                  }`}
-                  style={{ width: `${usagePct}%` }}
-                />
-              </div>
-              {isAtLimit ? (
-                <p className="text-xs text-red-600 font-medium">
-                  Monthly limit reached — upgrade to keep scanning
-                </p>
+        {/* Scan Usage card */}
+        <div className="bg-white rounded-xl border border-gray-200 p-4">
+          <div className="flex items-start justify-between mb-3">
+            <div>
+              <p className="font-bold text-gray-900 text-sm">Scan Usage</p>
+              {loading ? (
+                <div className="h-3 bg-gray-100 rounded w-32 mt-1 animate-pulse" />
               ) : (
-                <p className="text-xs text-gray-400">
-                  {FREE_SCAN_LIMIT - monthCount} scan{FREE_SCAN_LIMIT - monthCount !== 1 ? 's' : ''} remaining this month
+                <p className="text-xs text-gray-400 mt-0.5">
+                  {monthCount} of {FREE_SCAN_LIMIT} free scans used this month
                 </p>
               )}
-            </>
+            </div>
+            {!loading && (
+              <span
+                className="text-3xl font-bold tabular-nums"
+                style={{ color: isAtLimit ? '#ef4444' : '#19bfb7' }}
+              >
+                {monthCount}
+              </span>
+            )}
+          </div>
+
+          {/* Progress bar */}
+          <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <div
+              className="h-full rounded-full transition-all"
+              style={{
+                width: `${usagePct}%`,
+                background: isAtLimit ? '#ef4444' : usagePct > 80 ? '#f59e0b' : '#19bfb7',
+              }}
+            />
+          </div>
+          {isAtLimit && (
+            <p className="text-xs text-red-500 font-medium mt-2">
+              Monthly limit reached — upgrade to keep scanning
+            </p>
           )}
         </div>
 
-        {/* Upgrade card */}
-        <div className="bg-dark rounded-2xl p-4 shadow-sm border border-white/10">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex-1">
-              <p className="font-bold text-white">SnapCartQ Pro</p>
-              <p className="text-white/50 text-sm mt-0.5">Unlimited scans + priority support</p>
-              <p className="text-indigo-400 font-semibold text-lg mt-2">$3.99 / month</p>
-            </div>
-            <span className="text-3xl mt-1">✨</span>
+        {/* Current Plan card */}
+        <div className="bg-white rounded-xl border border-gray-200 p-4">
+          <div className="flex items-center justify-between mb-3">
+            <p className="font-bold text-gray-900 text-sm">Current Plan</p>
+            <span
+              className="text-xs font-bold text-white px-3 py-1 rounded-full"
+              style={{ background: '#1e2022' }}
+            >
+              Free Plan
+            </span>
           </div>
+          <p className="text-xs text-gray-400 mb-4">25 photo scans / month · Unlimited lists</p>
           <button
             onClick={() => navigate('/upgrade')}
-            className="w-full mt-4 font-bold rounded-xl py-3 text-sm active:scale-[0.98] transition-all text-white"
+            className="w-full text-white font-bold rounded-full py-3 text-sm"
             style={{ background: '#19bfb7' }}
           >
             Upgrade to Pro
@@ -98,10 +94,10 @@ export default function Account() {
         </div>
 
         {/* Quick links */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
           <button
             onClick={() => navigate('/history')}
-            className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors border-b border-gray-50"
+            className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 transition-colors border-b border-gray-100"
           >
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
